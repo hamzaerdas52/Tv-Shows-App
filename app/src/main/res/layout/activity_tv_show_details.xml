@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="3"
+    tools:context=".view.TvShowDetailsActivity"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/tvShowImage"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:src="@drawable/vikings"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:weightSum="3"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingLeft="40dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dizi Adı:"
+                android:layout_margin="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dizi Sezonu:"
+                android:layout_margin="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dizi Detayı:"
+                android:layout_margin="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="clip_horizontal"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvShowName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dizi Adı"
+                android:layout_margin="10dp"/>
+            <TextView
+                android:id="@+id/tvShowSeason"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dizi Sezonu"
+                android:layout_margin="10dp"/>
+            <TextView
+                android:id="@+id/tvShowDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dizi Detayı"
+                android:layout_margin="10dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
