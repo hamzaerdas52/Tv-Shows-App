@@ -2,6 +2,7 @@ package com.hamzaerdas.tvshowsapp.util
 
 import android.content.Context
 import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -21,4 +22,9 @@ fun makePlaceHolder(context: Context): CircularProgressDrawable {
         centerRadius = 35f
         start()
     }
+}
+
+@BindingAdapter("android:dowloadImage")
+fun dowloadImage(view: ImageView, url: String?){
+    view.dowloadImage(url, makePlaceHolder(view.context))
 }

@@ -14,9 +14,6 @@ interface TvShowAPI {
     // https://api.themoviedb.org/3
     // /tv/popular?api_key=260f15b7848e372a5332893b1d39d366&page=1
 
-    val api_key: String
-        get() = "260f15b7848e372a5332893b1d39d366"
-
     @GET("tv/popular?api_key=260f15b7848e372a5332893b1d39d366&page=1")
     fun getPopularTvShowData(): Single<TvShowResponse>
 

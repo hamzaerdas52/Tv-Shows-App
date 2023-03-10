@@ -24,7 +24,7 @@ data class TvShowDetail(
     var vote: Float?,
 
     @SerializedName("overview")
-    val detail: String?,
+    var detail: String?,
 
     @SerializedName("poster_path")
     val poster: String?

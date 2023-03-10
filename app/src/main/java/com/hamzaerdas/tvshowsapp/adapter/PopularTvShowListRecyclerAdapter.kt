@@ -1,52 +1,44 @@
 package com.hamzaerdas.tvshowsapp.adapter
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Icon
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.RecyclerView
+import com.hamzaerdas.tvshowsapp.R
 import com.hamzaerdas.tvshowsapp.databinding.TvShowRecyclerRowBinding
+import com.hamzaerdas.tvshowsapp.model.Favorite
 import com.hamzaerdas.tvshowsapp.model.TvShow
-import com.hamzaerdas.tvshowsapp.util.dowloadImage
-import com.hamzaerdas.tvshowsapp.util.makePlaceHolder
+import com.hamzaerdas.tvshowsapp.service.TvShowDatabase
 import com.hamzaerdas.tvshowsapp.view.TvShowDetailsActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
-class PopularTvShowListRecyclerAdapter(private val tvShowList: ArrayList<TvShow>) :
-    RecyclerView.Adapter<PopularTvShowListRecyclerAdapter.PopularTvShowViewHolder>() {
+class PopularTvShowListRecyclerAdapter(private val tvShowList: ArrayList<TvShow>):
+    RecyclerView.Adapter<PopularTvShowListRecyclerAdapter.PopularTvShowViewHolder>(), CoroutineScope{
 
-    class PopularTvShowViewHolder(val binding: TvShowRecyclerRowBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    var id: Int = 0
 
+    class PopularTvShowViewHolder(val binding: TvShowRecyclerRowBinding) : RecyclerView.ViewHolder(binding.root) {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularTvShowViewHolder {
-        val binding =
-            TvShowRecyclerRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = TvShowRecyclerRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PopularTvShowViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: PopularTvShowViewHolder, position: Int) {
-        if (tvShowList[position].name == "") {
-            holder.binding.recyclerTvShowName.text = "Değer Yok!"
-        } else {
-            holder.binding.recyclerTvShowName.text = tvShowList[position].name
-        }
 
-        if (tvShowList[position].vote.toString() == "") {
-            holder.binding.recyclerTvShowVote.text = "Değer Yok!"
-        } else {
-            holder.binding.recyclerTvShowVote.text = tvShowList[position].vote.toString()
-        }
+        val tvShow = tvShowList[holder.adapterPosition]
 
-        holder.binding.recyclerImageView.dowloadImage(
-            tvShowList[position].poster,
-            makePlaceHolder(holder.itemView.context)
-        )
+        holder.binding.tvshow = tvShow
 
-        holder.binding.listFavoriteIcon.setOnClickListener {
-            Toast.makeText(it.context, "${tvShowList[position].name} Favorilere eklendi", Toast.LENGTH_SHORT).show()
-        }
+        //getFavorite(holder.binding, tvShow)
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, TvShowDetailsActivity::class.java)
@@ -69,5 +61,22 @@ class PopularTvShowListRecyclerAdapter(private val tvShowList: ArrayList<TvShow>
         //tvShowList.clear()
         tvShowList.addAll(newTvShowList)
         notifyDataSetChanged()
+    }
+
+    override val coroutineContext: CoroutineContext
+        get() = Job() + Dispatchers.Main
+
+    private fun getFavorite(binding: TvShowRecyclerRowBinding, tvShow: TvShow){
+        launch {
+            val favoriteList = TvShowDatabase(binding.root.context).getTvShowDao().getAllFavorite()
+            favoriteList.forEach {
+                if(tvShow.id == it.favoriteId){
+                    println("${tvShow.name} ${tvShow.id} favorilerde ${it.favoriteId}")
+                    binding.listFavoriteIcon.setImageResource(R.drawable.vote_star)
+                } else {
+                    binding.listFavoriteIcon.setImageResource(R.drawable.vote_star_false)
+                }
+            }
+        }
     }
 }

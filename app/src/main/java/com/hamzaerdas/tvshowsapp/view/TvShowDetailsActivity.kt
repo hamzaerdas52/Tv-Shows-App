@@ -1,29 +1,32 @@
 package com.hamzaerdas.tvshowsapp.view
 
-
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.BaseAdapter
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.hamzaerdas.tvshowsapp.R
 import com.hamzaerdas.tvshowsapp.adapter.detailactivity.TvShowDetailGenresAdapter
 import com.hamzaerdas.tvshowsapp.databinding.ActivityTvShowDetailsBinding
+import com.hamzaerdas.tvshowsapp.model.Favorite
+import com.hamzaerdas.tvshowsapp.service.TvShowDatabase
 import com.hamzaerdas.tvshowsapp.util.dowloadImage
 import com.hamzaerdas.tvshowsapp.util.makePlaceHolder
+import com.hamzaerdas.tvshowsapp.viewmodel.BaseViewModel
 import com.hamzaerdas.tvshowsapp.viewmodel.TvShowDetailsViewModel
+import kotlinx.coroutines.launch
 
 
 class TvShowDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTvShowDetailsBinding
     private lateinit var viewModel: TvShowDetailsViewModel
+    private lateinit var baseViewModel: BaseViewModel
     private lateinit var genresAdapter: TvShowDetailGenresAdapter
-    private var list = ArrayList<Any>()
+    private lateinit var favorite: Favorite
+    var isFavorite: Boolean = false
     var id = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,47 +34,61 @@ class TvShowDetailsActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        genresAdapter = TvShowDetailGenresAdapter(arrayListOf())
-
-        id = intent.getIntExtra("id", 0)
-        println(id)
-
-        viewModel = ViewModelProviders.of(this@TvShowDetailsActivity)[TvShowDetailsViewModel::class.java]
-        viewModel.getDataDetails(id)
-
-        binding.genresRecyclerView.layoutManager = LinearLayoutManager(this@TvShowDetailsActivity, LinearLayoutManager.HORIZONTAL, false)
-        binding.genresRecyclerView.adapter = genresAdapter
-
-        binding.include.goBackIcon.setOnClickListener {
-            finish()
-        }
-
+        getId()
+        viewModelInitialize()
+        baseViewModelInitialize()
+        recyclerViewInitialize()
+        goBack()
         observeLiveData()
-    }
 
-    fun observeLiveData() {
+        getFavorite()
 
-        viewModel.tvShowsDetail.observe(this@TvShowDetailsActivity) {
-            it?.let { it ->
-                binding.tvShowImage.dowloadImage(it.poster, makePlaceHolder(this@TvShowDetailsActivity))
-                binding.include.topBarTextView.text = "${it.name}"
-                binding.tvShowName.text = it.name
-                binding.tvShowSeasonCount.text = it.seasonsCount.toString()
-                binding.tvShowEpisodeCount.text = it.episodesCount.toString()
-                //String sayi = String.valueOf(String.format("%10.2f", sayi1f)) + "√3";
-                binding.vote.text = it.vote.toString()
-                genresAdapter.genresUpdate(it.genres)
-                binding.tvShowDetail.text = it.detail
+        binding.include.detailFavoriteIcon.setOnClickListener {
+            if(isFavorite){
+                binding.include.detailFavoriteIcon.setImageResource(R.drawable.vote_star_false)
+                baseViewModel.deleteFavorite(favorite)
+                isFavorite = false
+            } else {
+                binding.include.detailFavoriteIcon.setImageResource(R.drawable.vote_star)
+                baseViewModel.addFavorite(favorite)
+                isFavorite = true
             }
         }
 
-        viewModel.tvShowDetailLoading.observe(this@TvShowDetailsActivity){
+    }
+
+    private fun getId() {
+        id = intent.getIntExtra("id", 0)
+        favorite = Favorite(id)
+    }
+
+    private fun observeLiveData() {
+
+        viewModel.tvShowsDetail.observe(this@TvShowDetailsActivity) {
+            it?.let { it ->
+
+                binding.include.showName = it
+
+                binding.tvDetail = it
+
+                genresAdapter.genresUpdate(it.genres)
+
+                if (it.detail == "") {
+                    binding.tvShowDetailText.visibility = View.GONE
+                    binding.tvShowDetail.visibility = View.GONE
+                } else {
+                    binding.tvShowDetail.text = it.detail
+                }
+            }
+        }
+
+        viewModel.tvShowDetailLoading.observe(this@TvShowDetailsActivity) {
             it?.let {
-                if(it){
+                if (it) {
                     binding.detailProgressBar.visibility = View.VISIBLE
                     binding.linearLayout.visibility = View.GONE
                     binding.include.root.visibility = View.GONE
-                } else{
+                } else {
                     binding.detailProgressBar.visibility = View.GONE
                     binding.linearLayout.visibility = View.VISIBLE
                     binding.include.root.visibility = View.VISIBLE
@@ -79,5 +96,40 @@ class TvShowDetailsActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun viewModelInitialize() {
+        viewModel = ViewModelProviders.of(this@TvShowDetailsActivity)[TvShowDetailsViewModel::class.java]
+        viewModel.getDataDetails(id)
+    }
+
+    private fun baseViewModelInitialize(){
+        baseViewModel = ViewModelProviders.of(this@TvShowDetailsActivity)[BaseViewModel::class.java]
+    }
+
+    private fun recyclerViewInitialize() {
+        genresAdapter = TvShowDetailGenresAdapter(arrayListOf())
+        binding.genresRecyclerView.layoutManager =
+            LinearLayoutManager(this@TvShowDetailsActivity, LinearLayoutManager.HORIZONTAL, false)
+        binding.genresRecyclerView.adapter = genresAdapter
+    }
+
+    private fun goBack() {
+        binding.include.goBackIcon.setOnClickListener {
+            finish()
+        }
+    }
+
+    private fun getFavorite(){
+        lifecycleScope.launch{
+            val favoriteList = TvShowDatabase(this@TvShowDetailsActivity).getTvShowDao().getAllFavorite()
+            favoriteList.forEach {
+                if(id == it.favoriteId){
+                    binding.include.detailFavoriteIcon.setImageResource(R.drawable.vote_star)
+                    isFavorite = true
+                }
+            }
+        }
+    }
+
 }
 

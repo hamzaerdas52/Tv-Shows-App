@@ -9,5 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="toolbar">#251E1E</color>
     <color name="background">#808080</color>
+    <color name="splah_background">#A5A5A5</color>
     <color name="item_color">#191313</color>
 </resources>

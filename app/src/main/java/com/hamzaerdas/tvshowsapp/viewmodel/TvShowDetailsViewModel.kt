@@ -1,16 +1,15 @@
 package com.hamzaerdas.tvshowsapp.viewmodel
 
+import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.hamzaerdas.tvshowsapp.model.TvShowDetail
 import com.hamzaerdas.tvshowsapp.service.TvShowAPIService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
-import java.text.DecimalFormat
 
-class TvShowDetailsViewModel : ViewModel() {
+class TvShowDetailsViewModel(application: Application) : BaseViewModel(application) {
 
     val tvShowsDetail = MutableLiveData<TvShowDetail>()
     val tvShowDetailLoading = MutableLiveData<Boolean>()
@@ -19,16 +18,10 @@ class TvShowDetailsViewModel : ViewModel() {
     private val disposable = CompositeDisposable()
 
     fun getDataDetails(id: Int){
-        /*
-        if(id == 1){
-            val viking = TvShow(1, "Vikings", "Viking Dizisi", 8.9, "hamza.com")
-            tvShows.value = viking
-        }
-         */
         getDataDetailsToAPI(id)
     }
 
-    fun getDataDetailsToAPI(id: Int){
+    private fun getDataDetailsToAPI(id: Int){
         tvShowDetailLoading.value = true
 
         disposable.add(
@@ -37,10 +30,7 @@ class TvShowDetailsViewModel : ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<TvShowDetail>(){
                     override fun onSuccess(t: TvShowDetail) {
-
                         t.vote = ((t.vote).toString()).substring(0,3).toFloat()
-                        println(t.vote)
-
                         tvShowsDetail.value = t
                         tvShowDetailLoading.value = false
                     }

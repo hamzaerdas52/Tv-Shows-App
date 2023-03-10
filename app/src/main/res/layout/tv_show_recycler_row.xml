@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="tvshow"
+            type="com.hamzaerdas.tvshowsapp.model.TvShow" />
+
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="170dp">
 
@@ -34,8 +43,8 @@
                     android:id="@+id/recyclerImageView"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@mipmap/ic_launcher_round" />
+                    android:dowloadImage="@{tvshow.poster}"
+                    android:layout_weight="1" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -49,7 +58,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:text="Dizi Adı"
+                        android:text="@{tvshow.name}"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="@color/white"/>
@@ -60,7 +69,7 @@
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
                         android:gravity="center"
-                        android:text="Dizi Puanı"
+                        android:text="@{tvshow.vote.toString()}"
                         android:textSize="18sp"
                         android:textColor="@android:color/holo_orange_dark"/>
 
@@ -70,14 +79,16 @@
     </RelativeLayout>
 
     <ImageView
+        android:visibility="gone"
         android:id="@+id/listFavoriteIcon"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="10dp"
+        android:src="@drawable/vote_star_false"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="15dp"
         android:padding="10dp"
-        android:src="@android:drawable/btn_star"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -16,7 +16,8 @@ class TvShowDetailGenresAdapter (private val genresList: ArrayList<TvShowGenres>
     }
 
     override fun onBindViewHolder(holder: GenresViewHolder, position: Int) {
-        holder.binding.genresName.text = genresList[position].name
+        val genres = genresList[holder.adapterPosition]
+        holder.binding.genres = genres
     }
 
     override fun getItemCount(): Int {

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.SplashScreenActivity"
+    android:background="@color/splah_background">
+
+    <ImageView
+        android:id="@+id/movie_before"
+        android:layout_width="232dp"
+        android:layout_height="250dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.24000001"
+        app:srcCompat="@drawable/movie_before" />
+
+    <ImageView
+        android:id="@+id/movie_after"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/movie_before"
+        app:layout_constraintEnd_toEndOf="@+id/movie_before"
+        app:layout_constraintStart_toStartOf="@+id/movie_before"
+        app:layout_constraintTop_toTopOf="@+id/movie_before"
+        app:srcCompat="@drawable/movie_after" />
+
+    <TextView
+        android:id="@+id/app_text"
+        android:layout_width="274dp"
+        android:layout_height="67dp"
+        android:gravity="center"
+        android:text="@string/app_text"
+        android:textColor="#000000"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.65999997" />
+</androidx.constraintlayout.widget.ConstraintLayout>
