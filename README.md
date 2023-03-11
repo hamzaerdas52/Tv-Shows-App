@@ -15,6 +15,6 @@ Popüler dizileri listeleyen ve tıklanıldığında detaylarını gösteren bir
 
 # Ekran Görüntüleri
 
-![splash](https://user-images.githubusercontent.com/75613757/224493223-02a99315-f784-4fc4-953a-37d016a31839.png)
-![list](https://user-images.githubusercontent.com/75613757/224493226-4ae20736-a489-4a28-9bf5-8aea636527f7.png)
-![detail](https://user-images.githubusercontent.com/75613757/224493230-8e7e8bbb-7057-4e44-ab28-1e53f668e813.png)
+![splash](https://user-images.githubusercontent.com/75613757/224493421-382e5802-85db-43ed-ab13-cf49fcacc543.png)
+![list](https://user-images.githubusercontent.com/75613757/224493423-e696261b-8439-4a43-80bb-cfbd22f3c097.png)
+![detail](https://user-images.githubusercontent.com/75613757/224493424-5d2cbca6-d5fe-4169-90be-080a148cb75e.png)
