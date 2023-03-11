@@ -1,5 +1,6 @@
 package com.hamzaerdas.tvshowsapp.view
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -29,6 +30,7 @@ class TvShowsListActivity : AppCompatActivity() {
         )
 
         viewModelInitialize()
+        layoutManagerInitialize()
         recyclerViewInitialize()
         swipeRefresh()
         infiniteScroll()
@@ -43,8 +45,11 @@ class TvShowsListActivity : AppCompatActivity() {
     }
 
     private fun recyclerViewInitialize(){
-        binding.popularTvShowListRecyclerView.layoutManager = LinearLayoutManager(this@TvShowsListActivity)
         binding.popularTvShowListRecyclerView.adapter = recyclerPopularTvShowAdapter
+    }
+
+    private fun layoutManagerInitialize() {
+        binding.popularTvShowListRecyclerView.layoutManager = LinearLayoutManager(this@TvShowsListActivity)
     }
 
     private fun observePopularLiveData() {
@@ -141,6 +146,11 @@ class TvShowsListActivity : AppCompatActivity() {
             binding.popularTvShowListRecyclerView.scrollToPosition(0)
             viewModel.refreshPopularData()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        recyclerPopularTvShowAdapter.notifyDataSetChanged()
     }
 
 }

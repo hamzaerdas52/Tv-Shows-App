@@ -15,12 +15,14 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class PopularTvShowListRecyclerAdapter(private val tvShowList: ArrayList<TvShow>):
-    RecyclerView.Adapter<PopularTvShowListRecyclerAdapter.PopularTvShowViewHolder>(), CoroutineScope{
+class PopularTvShowListRecyclerAdapter(private val tvShowList: ArrayList<TvShow>) :
+    RecyclerView.Adapter<PopularTvShowListRecyclerAdapter.PopularTvShowViewHolder>(),
+    CoroutineScope {
 
     var id: Int = 0
 
-    class PopularTvShowViewHolder(val binding: TvShowRecyclerRowBinding) : RecyclerView.ViewHolder(binding.root) {
+    class PopularTvShowViewHolder(val binding: TvShowRecyclerRowBinding) :
+        RecyclerView.ViewHolder(binding.root) {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularTvShowViewHolder {
@@ -34,7 +36,7 @@ class PopularTvShowListRecyclerAdapter(private val tvShowList: ArrayList<TvShow>
 
         holder.binding.tvshow = tvShow
 
-        //getFavorite(holder.binding, tvShow)
+        getFavorite(holder.binding, tvShow)
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, TvShowDetailsActivity::class.java)
@@ -61,16 +63,13 @@ class PopularTvShowListRecyclerAdapter(private val tvShowList: ArrayList<TvShow>
     override val coroutineContext: CoroutineContext
         get() = Job() + Dispatchers.Main
 
-    private fun getFavorite(binding: TvShowRecyclerRowBinding, tvShow: TvShow){
+    private fun getFavorite(binding: TvShowRecyclerRowBinding, tvShow: TvShow) {
         launch {
-            val favoriteList = TvShowDatabase(binding.root.context).getTvShowDao().getAllFavorite()
-            favoriteList.forEach {
-                if(tvShow.id == it.favoriteId){
-                    println("${tvShow.name} ${tvShow.id} favorilerde ${it.favoriteId}")
-                    binding.listFavoriteIcon.setImageResource(R.drawable.vote_star)
-                } else {
-                    binding.listFavoriteIcon.setImageResource(R.drawable.vote_star_false)
-                }
+            val isFavorite = TvShowDatabase(binding.root.context).getTvShowDao().hasBeenAdded(tvShow.id!!)
+            if (isFavorite == 1) {
+                binding.listFavoriteIcon.setImageResource(R.drawable.vote_star)
+            } else {
+                binding.listFavoriteIcon.setImageResource(R.drawable.vote_star_false)
             }
         }
     }

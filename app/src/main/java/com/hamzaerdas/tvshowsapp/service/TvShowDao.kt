@@ -16,8 +16,8 @@ interface TvShowDao {
     @Insert
     suspend fun addTvShow(vararg tvShow: TvShow) : List<Long>
 
-    @Query("SELECT * FROM Favorite")
-    suspend fun getAllFavorite(): List<Favorite>
+    @Query("SELECT COUNT(*) FROM Favorite WHERE favoriteId = :favoriteId")
+    suspend fun hasBeenAdded(favoriteId: Int) : Int
 
     @Query("SELECT * FROM TvShow")
     suspend fun getPopularTvShow(): List<TvShow>

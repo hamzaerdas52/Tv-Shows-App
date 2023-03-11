@@ -121,12 +121,10 @@ class TvShowDetailsActivity : AppCompatActivity() {
 
     private fun getFavorite(){
         lifecycleScope.launch{
-            val favoriteList = TvShowDatabase(this@TvShowDetailsActivity).getTvShowDao().getAllFavorite()
-            favoriteList.forEach {
-                if(id == it.favoriteId){
-                    binding.include.detailFavoriteIcon.setImageResource(R.drawable.vote_star)
-                    isFavorite = true
-                }
+            val favorite = TvShowDatabase(this@TvShowDetailsActivity).getTvShowDao().hasBeenAdded(id)
+            if(favorite == 1){
+                binding.include.detailFavoriteIcon.setImageResource(R.drawable.vote_star)
+                isFavorite = true
             }
         }
     }

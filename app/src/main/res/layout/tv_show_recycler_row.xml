@@ -79,7 +79,7 @@
     </RelativeLayout>
 
     <ImageView
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/listFavoriteIcon"
         android:layout_width="60dp"
         android:layout_height="60dp"
