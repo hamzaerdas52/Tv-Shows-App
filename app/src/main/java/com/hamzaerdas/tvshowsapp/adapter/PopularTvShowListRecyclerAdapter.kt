@@ -1,15 +1,11 @@
 package com.hamzaerdas.tvshowsapp.adapter
 
-import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.Icon
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.RecyclerView
 import com.hamzaerdas.tvshowsapp.R
 import com.hamzaerdas.tvshowsapp.databinding.TvShowRecyclerRowBinding
-import com.hamzaerdas.tvshowsapp.model.Favorite
 import com.hamzaerdas.tvshowsapp.model.TvShow
 import com.hamzaerdas.tvshowsapp.service.TvShowDatabase
 import com.hamzaerdas.tvshowsapp.view.TvShowDetailsActivity
@@ -58,7 +54,6 @@ class PopularTvShowListRecyclerAdapter(private val tvShowList: ArrayList<TvShow>
     }
 
     fun otherTvShowListUpdate(newTvShowList: List<TvShow>) {
-        //tvShowList.clear()
         tvShowList.addAll(newTvShowList)
         notifyDataSetChanged()
     }

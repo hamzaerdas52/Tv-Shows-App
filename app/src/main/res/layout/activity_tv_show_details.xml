@@ -117,7 +117,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginStart="7dp"
                                 android:layout_toEndOf="@+id/tvShowSeasonCount"
-                                android:text="Sezon"
+                                android:text="Season"
                                 android:textColor="@color/white"
                                 android:textSize="16sp" />
 
@@ -140,7 +140,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginStart="7dp"
                                 android:layout_toEndOf="@+id/tvShowEpisodeCount"
-                                android:text="Bölüm"
+                                android:text="Episode"
                                 android:textColor="@color/white"
                                 android:textSize="16sp" />
 
@@ -190,7 +190,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
-                        android:text="Konusu"
+                        android:text="Overview"
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         android:textStyle="bold"/>

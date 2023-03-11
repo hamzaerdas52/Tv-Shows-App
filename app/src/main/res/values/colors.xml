@@ -11,4 +11,5 @@
     <color name="background">#808080</color>
     <color name="splah_background">#A5A5A5</color>
     <color name="item_color">#191313</color>
+    <color name="genres_background">#2E2C2C</color>
 </resources>

@@ -2,6 +2,7 @@ package com.hamzaerdas.tvshowsapp.view
 
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +22,11 @@ class TvShowsListActivity : AppCompatActivity() {
         binding = ActivityTvShowsListBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        )
 
         viewModelInitialize()
         recyclerViewInitialize()

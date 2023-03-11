@@ -13,7 +13,7 @@ import com.hamzaerdas.tvshowsapp.databinding.ActivitySplashScreenBinding
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashScreenBinding
-    private val splashDuration = 4000
+    private val splashDuration = 3000
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)

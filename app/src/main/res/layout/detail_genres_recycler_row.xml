@@ -23,7 +23,7 @@
                 android:id="@+id/genresName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#2E2C2C"
+                android:background="@color/genres_background"
                 android:padding="10dp"
                 android:text="@{genres.name}"
                 android:textColor="@color/white" />
