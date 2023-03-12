@@ -1,94 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="tvshow"
             type="com.hamzaerdas.tvshowsapp.model.TvShow" />
 
     </data>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="170dp">
-
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:layout_height="170dp">
 
-        <androidx.cardview.widget.CardView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="5dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:cardBackgroundColor="@color/item_color"
-            app:cardCornerRadius="20dp">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                android:id="@+id/linearLayout2"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:weightSum="3">
-
-                <ImageView
-                    android:id="@+id/recyclerImageView"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:dowloadImage="@{tvshow.poster}"
-                    android:layout_weight="1" />
+                app:cardBackgroundColor="@color/item_color"
+                app:cardCornerRadius="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:id="@+id/linearLayout2"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_weight="2"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:weightSum="3">
 
-                    <TextView
-                        android:id="@+id/recyclerTvShowName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="@{tvshow.name}"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/white"/>
+                    <ImageView
+                        android:id="@+id/recyclerImageView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:dowloadImage="@{tvshow.poster}" />
 
-                    <TextView
-                        android:id="@+id/recyclerTvShowVote"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:gravity="center"
-                        android:text="@{tvshow.vote.toString()}"
-                        android:textSize="18sp"
-                        android:textColor="@android:color/holo_orange_dark"/>
+                        android:layout_weight="2"
+                        android:orientation="vertical">
 
+                        <TextView
+                            android:id="@+id/recyclerTvShowName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:text="@{tvshow.name}"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/recyclerTvShowVote"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:gravity="center"
+                            android:text="@{tvshow.vote.toString()}"
+                            android:textColor="@android:color/holo_orange_dark"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-    </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
 
-    <ImageView
-        android:visibility="visible"
-        android:id="@+id/listFavoriteIcon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/vote_star_false"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="15dp"
-        android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        <ImageView
+            android:id="@+id/listFavoriteIcon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="15dp"
+            android:padding="10dp"
+            android:src="@drawable/vote_star_false"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

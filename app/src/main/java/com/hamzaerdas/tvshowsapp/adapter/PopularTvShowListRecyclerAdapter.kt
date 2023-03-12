@@ -26,7 +26,8 @@ class PopularTvShowListRecyclerAdapter(private val tvShowList: ArrayList<TvShow>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularTvShowViewHolder {
-        val binding = TvShowRecyclerRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            TvShowRecyclerRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PopularTvShowViewHolder(binding)
     }
 
@@ -65,7 +66,8 @@ class PopularTvShowListRecyclerAdapter(private val tvShowList: ArrayList<TvShow>
 
     private fun getFavorite(binding: TvShowRecyclerRowBinding, tvShow: TvShow) {
         launch {
-            val isFavorite = TvShowDatabase(binding.root.context).getTvShowDao().hasBeenAdded(tvShow.id!!)
+            val isFavorite =
+                TvShowDatabase(binding.root.context).getTvShowDao().hasBeenAdded(tvShow.id!!)
             if (isFavorite == 1) {
                 binding.listFavoriteIcon.setImageResource(R.drawable.vote_star)
             } else {

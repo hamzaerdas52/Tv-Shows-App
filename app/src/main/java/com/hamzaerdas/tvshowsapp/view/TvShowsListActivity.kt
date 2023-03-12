@@ -1,6 +1,5 @@
 package com.hamzaerdas.tvshowsapp.view
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -39,17 +38,19 @@ class TvShowsListActivity : AppCompatActivity() {
 
     }
 
-    private fun viewModelInitialize(){
-        viewModel = ViewModelProviders.of(this@TvShowsListActivity)[TvShowsListViewModel::class.java]
+    private fun viewModelInitialize() {
+        viewModel =
+            ViewModelProviders.of(this@TvShowsListActivity)[TvShowsListViewModel::class.java]
         viewModel.refreshPopularData()
     }
 
-    private fun recyclerViewInitialize(){
+    private fun recyclerViewInitialize() {
         binding.popularTvShowListRecyclerView.adapter = recyclerPopularTvShowAdapter
     }
 
     private fun layoutManagerInitialize() {
-        binding.popularTvShowListRecyclerView.layoutManager = LinearLayoutManager(this@TvShowsListActivity)
+        binding.popularTvShowListRecyclerView.layoutManager =
+            LinearLayoutManager(this@TvShowsListActivity)
     }
 
     private fun observePopularLiveData() {
@@ -61,7 +62,7 @@ class TvShowsListActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.otherTvShows.observe(this@TvShowsListActivity){
+        viewModel.otherTvShows.observe(this@TvShowsListActivity) {
             it?.let {
                 binding.popularTvShowListRecyclerView.visibility = View.VISIBLE
                 recyclerPopularTvShowAdapter.otherTvShowListUpdate(it.tvShows)
@@ -94,9 +95,9 @@ class TvShowsListActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.tvShowInfiniteLoading.observe(this@TvShowsListActivity){
+        viewModel.tvShowInfiniteLoading.observe(this@TvShowsListActivity) {
             it?.let {
-                if(it){
+                if (it) {
                     binding.tvShowInfiniteProgressBar.visibility = View.VISIBLE
                     binding.showsErrorMessage.visibility = View.GONE
                 } else {
@@ -107,7 +108,7 @@ class TvShowsListActivity : AppCompatActivity() {
 
         viewModel.popularTvShowUpdated.observe(this@TvShowsListActivity) {
             it?.let {
-                if(it){
+                if (it) {
                     binding.updateListButton.visibility = View.VISIBLE
                 } else {
                     binding.updateListButton.visibility = View.GONE
@@ -116,13 +117,16 @@ class TvShowsListActivity : AppCompatActivity() {
         }
     }
 
-    private fun infiniteScroll(){
-        binding.popularTvShowListRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+    private fun infiniteScroll() {
+        binding.popularTvShowListRecyclerView.addOnScrollListener(object :
+            RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val lastVisibleItemPosition = (binding.popularTvShowListRecyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                val totalItemCount = (binding.popularTvShowListRecyclerView.layoutManager as LinearLayoutManager).itemCount
-                if(lastVisibleItemPosition == totalItemCount -1 ){
+                val lastVisibleItemPosition =
+                    (binding.popularTvShowListRecyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                val totalItemCount =
+                    (binding.popularTvShowListRecyclerView.layoutManager as LinearLayoutManager).itemCount
+                if (lastVisibleItemPosition == totalItemCount - 1) {
                     page++
                     viewModel.refreshOtherData(page)
                 }
@@ -130,7 +134,7 @@ class TvShowsListActivity : AppCompatActivity() {
         })
     }
 
-    private fun swipeRefresh(){
+    private fun swipeRefresh() {
         binding.swipeRefreshLayout.setOnRefreshListener {
             binding.tvShowProgressBar.visibility = View.VISIBLE
             binding.loadMessage.visibility = View.VISIBLE
@@ -141,7 +145,7 @@ class TvShowsListActivity : AppCompatActivity() {
         }
     }
 
-    private fun tvShowUpdated(){
+    private fun tvShowUpdated() {
         binding.updateListButton.setOnClickListener {
             binding.popularTvShowListRecyclerView.scrollToPosition(0)
             viewModel.refreshPopularData()

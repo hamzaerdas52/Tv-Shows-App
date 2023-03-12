@@ -44,7 +44,7 @@ class TvShowDetailsActivity : AppCompatActivity() {
         getFavorite()
 
         binding.include.detailFavoriteIcon.setOnClickListener {
-            if(isFavorite){
+            if (isFavorite) {
                 binding.include.detailFavoriteIcon.setImageResource(R.drawable.vote_star_false)
                 baseViewModel.deleteFavorite(favorite)
                 isFavorite = false
@@ -98,11 +98,12 @@ class TvShowDetailsActivity : AppCompatActivity() {
     }
 
     private fun viewModelInitialize() {
-        viewModel = ViewModelProviders.of(this@TvShowDetailsActivity)[TvShowDetailsViewModel::class.java]
+        viewModel =
+            ViewModelProviders.of(this@TvShowDetailsActivity)[TvShowDetailsViewModel::class.java]
         viewModel.getDataDetails(id)
     }
 
-    private fun baseViewModelInitialize(){
+    private fun baseViewModelInitialize() {
         baseViewModel = ViewModelProviders.of(this@TvShowDetailsActivity)[BaseViewModel::class.java]
     }
 
@@ -119,10 +120,11 @@ class TvShowDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private fun getFavorite(){
-        lifecycleScope.launch{
-            val favorite = TvShowDatabase(this@TvShowDetailsActivity).getTvShowDao().hasBeenAdded(id)
-            if(favorite == 1){
+    private fun getFavorite() {
+        lifecycleScope.launch {
+            val favorite =
+                TvShowDatabase(this@TvShowDetailsActivity).getTvShowDao().hasBeenAdded(id)
+            if (favorite == 1) {
                 binding.include.detailFavoriteIcon.setImageResource(R.drawable.vote_star)
                 isFavorite = true
             }

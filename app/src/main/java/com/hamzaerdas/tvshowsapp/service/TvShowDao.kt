@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.Query
 import com.hamzaerdas.tvshowsapp.model.Favorite
 import com.hamzaerdas.tvshowsapp.model.TvShow
-import com.hamzaerdas.tvshowsapp.model.TvShowResponse
 
 @Dao
 interface TvShowDao {
