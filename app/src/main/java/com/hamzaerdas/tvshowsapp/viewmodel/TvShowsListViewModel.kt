@@ -26,9 +26,6 @@ class TvShowsListViewModel(application: Application) : BaseViewModel(application
     private var tvShowList = arrayListOf<TvShow>()
     var number = 0
 
-    private val tvShowAPIService = TvShowAPIService()
-    private val disposable = CompositeDisposable()
-
     fun refreshPopularData() {
         deleteTvShow()
         getPopularDataToAPI()

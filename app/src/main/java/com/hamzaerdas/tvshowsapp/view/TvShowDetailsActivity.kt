@@ -21,10 +21,9 @@ import kotlinx.coroutines.launch
 class TvShowDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTvShowDetailsBinding
     private lateinit var viewModel: TvShowDetailsViewModel
-    private lateinit var baseViewModel: BaseViewModel
     private lateinit var genresAdapter: TvShowDetailGenresAdapter
     private lateinit var favorite: Favorite
-    var isFavorite: Boolean = false
+    private var isFavorite: Boolean = false
     var id = 0
 
 
@@ -36,21 +35,20 @@ class TvShowDetailsActivity : AppCompatActivity() {
 
         getId()
         viewModelInitialize()
-        baseViewModelInitialize()
         recyclerViewInitialize()
         goBack()
         observeLiveData()
 
-        getFavorite()
+        //getFavorite()
 
         binding.include.detailFavoriteIcon.setOnClickListener {
             if (isFavorite) {
                 binding.include.detailFavoriteIcon.setImageResource(R.drawable.vote_star_false)
-                baseViewModel.deleteFavorite(favorite)
+                viewModel.deleteFavorite(favorite)
                 isFavorite = false
             } else {
                 binding.include.detailFavoriteIcon.setImageResource(R.drawable.vote_star)
-                baseViewModel.addFavorite(favorite)
+                viewModel.addFavorite(favorite)
                 isFavorite = true
             }
         }
@@ -60,6 +58,19 @@ class TvShowDetailsActivity : AppCompatActivity() {
     private fun getId() {
         id = intent.getIntExtra("id", 0)
         favorite = Favorite(id)
+    }
+
+    private fun viewModelInitialize() {
+        viewModel = ViewModelProviders.of(this@TvShowDetailsActivity)[TvShowDetailsViewModel::class.java]
+        viewModel.getDataDetails(id)
+        viewModel.isFavorite(id)
+    }
+
+    private fun recyclerViewInitialize() {
+        genresAdapter = TvShowDetailGenresAdapter(arrayListOf())
+        binding.genresRecyclerView.layoutManager =
+            LinearLayoutManager(this@TvShowDetailsActivity, LinearLayoutManager.HORIZONTAL, false)
+        binding.genresRecyclerView.adapter = genresAdapter
     }
 
     private fun observeLiveData() {
@@ -95,39 +106,20 @@ class TvShowDetailsActivity : AppCompatActivity() {
                 }
             }
         }
-    }
 
-    private fun viewModelInitialize() {
-        viewModel =
-            ViewModelProviders.of(this@TvShowDetailsActivity)[TvShowDetailsViewModel::class.java]
-        viewModel.getDataDetails(id)
-    }
-
-    private fun baseViewModelInitialize() {
-        baseViewModel = ViewModelProviders.of(this@TvShowDetailsActivity)[BaseViewModel::class.java]
-    }
-
-    private fun recyclerViewInitialize() {
-        genresAdapter = TvShowDetailGenresAdapter(arrayListOf())
-        binding.genresRecyclerView.layoutManager =
-            LinearLayoutManager(this@TvShowDetailsActivity, LinearLayoutManager.HORIZONTAL, false)
-        binding.genresRecyclerView.adapter = genresAdapter
+        viewModel.isFavorite.observe(this@TvShowDetailsActivity){
+            it?.let {
+                if(it){
+                    binding.include.detailFavoriteIcon.setImageResource(R.drawable.vote_star)
+                    isFavorite = true
+                }
+            }
+        }
     }
 
     private fun goBack() {
         binding.include.goBackIcon.setOnClickListener {
             finish()
-        }
-    }
-
-    private fun getFavorite() {
-        lifecycleScope.launch {
-            val favorite =
-                TvShowDatabase(this@TvShowDetailsActivity).getTvShowDao().hasBeenAdded(id)
-            if (favorite == 1) {
-                binding.include.detailFavoriteIcon.setImageResource(R.drawable.vote_star)
-                isFavorite = true
-            }
         }
     }
 

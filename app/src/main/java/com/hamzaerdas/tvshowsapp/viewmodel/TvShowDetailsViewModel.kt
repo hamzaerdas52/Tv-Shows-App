@@ -14,9 +14,6 @@ class TvShowDetailsViewModel(application: Application) : BaseViewModel(applicati
     val tvShowsDetail = MutableLiveData<TvShowDetail>()
     val tvShowDetailLoading = MutableLiveData<Boolean>()
 
-    private val tvShowAPIService = TvShowAPIService()
-    private val disposable = CompositeDisposable()
-
     fun getDataDetails(id: Int){
         getDataDetailsToAPI(id)
     }

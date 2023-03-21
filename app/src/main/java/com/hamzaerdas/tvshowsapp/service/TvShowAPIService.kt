@@ -1,9 +1,7 @@
 package com.hamzaerdas.tvshowsapp.service
 
-import com.hamzaerdas.tvshowsapp.model.TvShow
 import com.hamzaerdas.tvshowsapp.model.TvShowDetail
 import com.hamzaerdas.tvshowsapp.model.TvShowResponse
-import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory

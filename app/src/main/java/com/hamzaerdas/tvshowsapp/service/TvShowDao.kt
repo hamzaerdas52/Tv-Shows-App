@@ -26,4 +26,5 @@ interface TvShowDao {
 
     @Query("DELETE FROM TvShow")
     suspend fun deleteAllTvShow()
+
 }
