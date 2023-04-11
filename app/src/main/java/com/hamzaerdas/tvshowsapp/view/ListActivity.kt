@@ -3,17 +3,19 @@ package com.hamzaerdas.tvshowsapp.view
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hamzaerdas.tvshowsapp.adapter.PopularTvShowListRecyclerAdapter
 import com.hamzaerdas.tvshowsapp.databinding.ActivityTvShowsListBinding
-import com.hamzaerdas.tvshowsapp.viewmodel.TvShowsListViewModel
+import com.hamzaerdas.tvshowsapp.viewmodel.ListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class TvShowsListActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class ListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTvShowsListBinding
-    private lateinit var viewModel: TvShowsListViewModel
+    private val viewModel: ListViewModel by viewModels()
     private val recyclerPopularTvShowAdapter = PopularTvShowListRecyclerAdapter(arrayListOf())
     var page = 1
 
@@ -39,8 +41,6 @@ class TvShowsListActivity : AppCompatActivity() {
     }
 
     private fun viewModelInitialize() {
-        viewModel =
-            ViewModelProviders.of(this@TvShowsListActivity)[TvShowsListViewModel::class.java]
         viewModel.refreshPopularData()
     }
 
@@ -50,26 +50,26 @@ class TvShowsListActivity : AppCompatActivity() {
 
     private fun layoutManagerInitialize() {
         binding.popularTvShowListRecyclerView.layoutManager =
-            LinearLayoutManager(this@TvShowsListActivity)
+            LinearLayoutManager(this@ListActivity)
     }
 
     private fun observePopularLiveData() {
 
-        viewModel.popularTvShows.observe(this@TvShowsListActivity) {
+        viewModel.popularTvShows.observe(this@ListActivity) {
             it?.let {
                 binding.popularTvShowListRecyclerView.visibility = View.VISIBLE
                 recyclerPopularTvShowAdapter.popularTvShowListUpdate(it.tvShows)
             }
         }
 
-        viewModel.otherTvShows.observe(this@TvShowsListActivity) {
+        viewModel.otherTvShows.observe(this@ListActivity) {
             it?.let {
                 binding.popularTvShowListRecyclerView.visibility = View.VISIBLE
                 recyclerPopularTvShowAdapter.otherTvShowListUpdate(it.tvShows)
             }
         }
 
-        viewModel.tvShowErrorMessage.observe(this@TvShowsListActivity) {
+        viewModel.tvShowErrorMessage.observe(this@ListActivity) {
             it?.let {
                 if (it) {
                     binding.showsErrorMessage.visibility = View.VISIBLE
@@ -80,7 +80,7 @@ class TvShowsListActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.tvShowLoading.observe(this@TvShowsListActivity) {
+        viewModel.tvShowLoading.observe(this@ListActivity) {
             it?.let {
                 if (it) {
                     binding.tvShowProgressBar.visibility = View.VISIBLE
@@ -95,7 +95,7 @@ class TvShowsListActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.tvShowInfiniteLoading.observe(this@TvShowsListActivity) {
+        viewModel.tvShowInfiniteLoading.observe(this@ListActivity) {
             it?.let {
                 if (it) {
                     binding.tvShowInfiniteProgressBar.visibility = View.VISIBLE
@@ -106,7 +106,7 @@ class TvShowsListActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.popularTvShowUpdated.observe(this@TvShowsListActivity) {
+        viewModel.popularTvShowUpdated.observe(this@ListActivity) {
             it?.let {
                 if (it) {
                     binding.updateListButton.visibility = View.VISIBLE

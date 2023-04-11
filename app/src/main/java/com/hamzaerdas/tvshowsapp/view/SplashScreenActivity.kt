@@ -32,7 +32,7 @@ class SplashScreenActivity : AppCompatActivity() {
         appText.animation = textAnimation
 
         Handler().postDelayed({
-            val intent = Intent(this@SplashScreenActivity, TvShowsListActivity::class.java)
+            val intent = Intent(this@SplashScreenActivity, ListActivity::class.java)
             startActivity(intent)
             finish()
         }, splashDuration.toLong())

@@ -6,15 +6,17 @@ import android.os.Looper
 import androidx.lifecycle.MutableLiveData
 import com.hamzaerdas.tvshowsapp.model.TvShow
 import com.hamzaerdas.tvshowsapp.model.TvShowResponse
-import com.hamzaerdas.tvshowsapp.service.TvShowAPIService
+import com.hamzaerdas.tvshowsapp.service.TvShowAPI
 import com.hamzaerdas.tvshowsapp.service.TvShowDatabase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TvShowsListViewModel(application: Application) : BaseViewModel(application){
+@HiltViewModel
+class ListViewModel @Inject constructor(private val tvShowAPI: TvShowAPI, application: Application) : BaseViewModel(application){
     val popularTvShows = MutableLiveData<TvShowResponse>()
     val otherTvShows = MutableLiveData<TvShowResponse>()
     val tvShowErrorMessage = MutableLiveData<Boolean>()
@@ -85,7 +87,7 @@ class TvShowsListViewModel(application: Application) : BaseViewModel(application
         tvShowLoading.value = true
 
         disposable.add(
-            tvShowAPIService.getPopularData()
+            tvShowAPI.getPopularTvShow()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<TvShowResponse>() {
@@ -108,7 +110,7 @@ class TvShowsListViewModel(application: Application) : BaseViewModel(application
         tvShowInfiniteLoading.value = true
 
         disposable.add(
-            tvShowAPIService.getOtherData(page)
+            tvShowAPI.getOtherTvShow(page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<TvShowResponse>() {
@@ -153,14 +155,12 @@ class TvShowsListViewModel(application: Application) : BaseViewModel(application
 
     fun getPopularDataToList(){
         disposable.add(
-            tvShowAPIService.getPopularData()
+            tvShowAPI.getPopularTvShow()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<TvShowResponse>() {
                     override fun onSuccess(t: TvShowResponse) {
-                        t.tvShows.forEach {
-                            tvShowList.add(it)
-                        }
+                        tvShowList.addAll(t.tvShows)
                     }
                     override fun onError(e: Throwable) {
                         e.printStackTrace()

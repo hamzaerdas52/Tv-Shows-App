@@ -9,21 +9,18 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface TvShowAPI {
-
-    // https://api.themoviedb.org/3
-    // /tv/popular?api_key=260f15b7848e372a5332893b1d39d366&page=1
+interface TvShowAPI{
 
     @GET("tv/popular?api_key=260f15b7848e372a5332893b1d39d366&page=1")
-    fun getPopularTvShowData(): Single<TvShowResponse>
+    fun getPopularTvShow(): Single<TvShowResponse>
 
     @GET("tv/popular?api_key=260f15b7848e372a5332893b1d39d366&page=page")
-    fun getOtherTvShowData(
+    fun getOtherTvShow(
         @Query("page") page:Int
     ): Single<TvShowResponse>
 
     @GET("tv/{tv_id}?api_key=260f15b7848e372a5332893b1d39d366")
-    fun getTvShowDetailsData(
+    fun getTvShowDetails(
         @Path("tv_id") id: Int
     ): Single<TvShowDetail>
 }

@@ -7,10 +7,11 @@ import androidx.room.RoomDatabase
 import com.hamzaerdas.tvshowsapp.model.Favorite
 import com.hamzaerdas.tvshowsapp.model.TvShow
 
-@Database(entities = arrayOf(Favorite::class, TvShow::class), version = 3)
+@Database(entities = arrayOf(Favorite::class, TvShow::class), version = 4)
 abstract class TvShowDatabase : RoomDatabase(){
 
     abstract fun getTvShowDao() : TvShowDao
+    abstract fun getFavoriteDao() : FavoriteDao
 
     companion object{
         @Volatile private var instance : TvShowDatabase? = null
@@ -30,7 +31,5 @@ abstract class TvShowDatabase : RoomDatabase(){
             .allowMainThreadQueries()
             .fallbackToDestructiveMigration()
             .build()
-
-
     }
 }

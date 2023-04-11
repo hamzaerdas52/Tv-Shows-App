@@ -2,25 +2,23 @@ package com.hamzaerdas.tvshowsapp.view
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hamzaerdas.tvshowsapp.R
 import com.hamzaerdas.tvshowsapp.adapter.detailactivity.TvShowDetailGenresAdapter
 import com.hamzaerdas.tvshowsapp.databinding.ActivityTvShowDetailsBinding
 import com.hamzaerdas.tvshowsapp.model.Favorite
-import com.hamzaerdas.tvshowsapp.service.TvShowDatabase
-import com.hamzaerdas.tvshowsapp.util.dowloadImage
-import com.hamzaerdas.tvshowsapp.util.makePlaceHolder
-import com.hamzaerdas.tvshowsapp.viewmodel.BaseViewModel
-import com.hamzaerdas.tvshowsapp.viewmodel.TvShowDetailsViewModel
-import kotlinx.coroutines.launch
+import com.hamzaerdas.tvshowsapp.viewmodel.DetailsViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
-class TvShowDetailsActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class DetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTvShowDetailsBinding
-    private lateinit var viewModel: TvShowDetailsViewModel
+    private val viewModel: DetailsViewModel by viewModels()
     private lateinit var genresAdapter: TvShowDetailGenresAdapter
     private lateinit var favorite: Favorite
     private var isFavorite: Boolean = false
@@ -38,20 +36,7 @@ class TvShowDetailsActivity : AppCompatActivity() {
         recyclerViewInitialize()
         goBack()
         observeLiveData()
-
-        //getFavorite()
-
-        binding.include.detailFavoriteIcon.setOnClickListener {
-            if (isFavorite) {
-                binding.include.detailFavoriteIcon.setImageResource(R.drawable.vote_star_false)
-                viewModel.deleteFavorite(favorite)
-                isFavorite = false
-            } else {
-                binding.include.detailFavoriteIcon.setImageResource(R.drawable.vote_star)
-                viewModel.addFavorite(favorite)
-                isFavorite = true
-            }
-        }
+        getFavorite()
 
     }
 
@@ -61,7 +46,6 @@ class TvShowDetailsActivity : AppCompatActivity() {
     }
 
     private fun viewModelInitialize() {
-        viewModel = ViewModelProviders.of(this@TvShowDetailsActivity)[TvShowDetailsViewModel::class.java]
         viewModel.getDataDetails(id)
         viewModel.isFavorite(id)
     }
@@ -69,13 +53,13 @@ class TvShowDetailsActivity : AppCompatActivity() {
     private fun recyclerViewInitialize() {
         genresAdapter = TvShowDetailGenresAdapter(arrayListOf())
         binding.genresRecyclerView.layoutManager =
-            LinearLayoutManager(this@TvShowDetailsActivity, LinearLayoutManager.HORIZONTAL, false)
+            LinearLayoutManager(this@DetailsActivity, LinearLayoutManager.HORIZONTAL, false)
         binding.genresRecyclerView.adapter = genresAdapter
     }
 
     private fun observeLiveData() {
 
-        viewModel.tvShowsDetail.observe(this@TvShowDetailsActivity) {
+        viewModel.tvShowsDetail.observe(this@DetailsActivity) {
             it?.let { it ->
 
                 binding.include.showName = it
@@ -93,7 +77,7 @@ class TvShowDetailsActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.tvShowDetailLoading.observe(this@TvShowDetailsActivity) {
+        viewModel.tvShowDetailLoading.observe(this@DetailsActivity) {
             it?.let {
                 if (it) {
                     binding.detailProgressBar.visibility = View.VISIBLE
@@ -107,12 +91,26 @@ class TvShowDetailsActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.isFavorite.observe(this@TvShowDetailsActivity){
+        viewModel.isFavorite.observe(this@DetailsActivity) {
             it?.let {
-                if(it){
+                if (it) {
                     binding.include.detailFavoriteIcon.setImageResource(R.drawable.vote_star)
                     isFavorite = true
                 }
+            }
+        }
+    }
+
+    private fun getFavorite() {
+        binding.include.detailFavoriteIcon.setOnClickListener {
+            if (isFavorite) {
+                binding.include.detailFavoriteIcon.setImageResource(R.drawable.vote_star_false)
+                viewModel.deleteFavorite(favorite)
+                isFavorite = false
+            } else {
+                binding.include.detailFavoriteIcon.setImageResource(R.drawable.vote_star)
+                viewModel.addFavorite(favorite)
+                isFavorite = true
             }
         }
     }

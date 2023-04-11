@@ -8,7 +8,7 @@ import com.hamzaerdas.tvshowsapp.R
 import com.hamzaerdas.tvshowsapp.databinding.TvShowRecyclerRowBinding
 import com.hamzaerdas.tvshowsapp.model.TvShow
 import com.hamzaerdas.tvshowsapp.service.TvShowDatabase
-import com.hamzaerdas.tvshowsapp.view.TvShowDetailsActivity
+import com.hamzaerdas.tvshowsapp.view.DetailsActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -40,7 +40,7 @@ class PopularTvShowListRecyclerAdapter(private val tvShowList: ArrayList<TvShow>
         getFavorite(holder.binding, tvShow)
 
         holder.itemView.setOnClickListener {
-            val intent = Intent(holder.itemView.context, TvShowDetailsActivity::class.java)
+            val intent = Intent(holder.itemView.context, DetailsActivity::class.java)
             intent.putExtra("id", tvShowList[position].id)
             holder.itemView.context.startActivity(intent)
         }
@@ -67,7 +67,7 @@ class PopularTvShowListRecyclerAdapter(private val tvShowList: ArrayList<TvShow>
     private fun getFavorite(binding: TvShowRecyclerRowBinding, tvShow: TvShow) {
         launch {
             val isFavorite =
-                TvShowDatabase(binding.root.context).getTvShowDao().hasBeenAdded(tvShow.id!!)
+                TvShowDatabase(binding.root.context).getFavoriteDao().hasBeenAdded(tvShow.id!!)
             if (isFavorite == 1) {
                 binding.listFavoriteIcon.setImageResource(R.drawable.vote_star)
             } else {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tv Shows App</string>
+    <string name="app_name">TvShowsApp</string>
     <string name="list_activity_title">Popular Tv Shows</string>
     <string name="app_text">Tv Shows App</string>
 </resources>
