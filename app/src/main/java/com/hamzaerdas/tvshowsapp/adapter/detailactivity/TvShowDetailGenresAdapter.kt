@@ -5,8 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hamzaerdas.tvshowsapp.databinding.DetailGenresRecyclerRowBinding
 import com.hamzaerdas.tvshowsapp.model.TvShowGenres
+import javax.inject.Inject
 
-class TvShowDetailGenresAdapter (private val genresList: ArrayList<TvShowGenres>) : RecyclerView.Adapter<TvShowDetailGenresAdapter.GenresViewHolder>() {
+class TvShowDetailGenresAdapter @Inject constructor () : RecyclerView.Adapter<TvShowDetailGenresAdapter.GenresViewHolder>() {
+    private val genresList = ArrayList<TvShowGenres>()
     class GenresViewHolder (val binding: DetailGenresRecyclerRowBinding) : RecyclerView.ViewHolder(binding.root){
     }
 

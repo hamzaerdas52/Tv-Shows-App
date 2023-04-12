@@ -11,12 +11,13 @@ import com.hamzaerdas.tvshowsapp.adapter.PopularTvShowListRecyclerAdapter
 import com.hamzaerdas.tvshowsapp.databinding.ActivityTvShowsListBinding
 import com.hamzaerdas.tvshowsapp.viewmodel.ListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTvShowsListBinding
     private val viewModel: ListViewModel by viewModels()
-    private val recyclerPopularTvShowAdapter = PopularTvShowListRecyclerAdapter(arrayListOf())
+    @Inject lateinit var recyclerPopularTvShowAdapter: PopularTvShowListRecyclerAdapter
     var page = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {

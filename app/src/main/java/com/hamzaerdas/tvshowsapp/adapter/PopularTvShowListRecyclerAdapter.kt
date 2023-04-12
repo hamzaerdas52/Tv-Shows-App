@@ -7,19 +7,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hamzaerdas.tvshowsapp.R
 import com.hamzaerdas.tvshowsapp.databinding.TvShowRecyclerRowBinding
 import com.hamzaerdas.tvshowsapp.model.TvShow
+import com.hamzaerdas.tvshowsapp.service.FavoriteDao
 import com.hamzaerdas.tvshowsapp.service.TvShowDatabase
 import com.hamzaerdas.tvshowsapp.view.DetailsActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class PopularTvShowListRecyclerAdapter(private val tvShowList: ArrayList<TvShow>) :
+class PopularTvShowListRecyclerAdapter @Inject constructor(
+    private val favoriteDao: FavoriteDao,
+) :
     RecyclerView.Adapter<PopularTvShowListRecyclerAdapter.PopularTvShowViewHolder>(),
     CoroutineScope {
 
-    var id: Int = 0
+    private val tvShowList = ArrayList<TvShow>()
 
     class PopularTvShowViewHolder(val binding: TvShowRecyclerRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -67,7 +71,7 @@ class PopularTvShowListRecyclerAdapter(private val tvShowList: ArrayList<TvShow>
     private fun getFavorite(binding: TvShowRecyclerRowBinding, tvShow: TvShow) {
         launch {
             val isFavorite =
-                TvShowDatabase(binding.root.context).getFavoriteDao().hasBeenAdded(tvShow.id!!)
+                favoriteDao.hasBeenAdded(tvShow.id!!)
             if (isFavorite == 1) {
                 binding.listFavoriteIcon.setImageResource(R.drawable.vote_star)
             } else {

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hamzaerdas.tvshowsapp.R
 import com.hamzaerdas.tvshowsapp.adapter.detailactivity.TvShowDetailGenresAdapter
@@ -19,11 +18,12 @@ import javax.inject.Inject
 class DetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTvShowDetailsBinding
     private val viewModel: DetailsViewModel by viewModels()
-    private lateinit var genresAdapter: TvShowDetailGenresAdapter
+
+    @Inject
+    lateinit var genresAdapter: TvShowDetailGenresAdapter
     private lateinit var favorite: Favorite
     private var isFavorite: Boolean = false
     var id = 0
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +51,6 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     private fun recyclerViewInitialize() {
-        genresAdapter = TvShowDetailGenresAdapter(arrayListOf())
         binding.genresRecyclerView.layoutManager =
             LinearLayoutManager(this@DetailsActivity, LinearLayoutManager.HORIZONTAL, false)
         binding.genresRecyclerView.adapter = genresAdapter

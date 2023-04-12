@@ -3,6 +3,7 @@ package com.hamzaerdas.tvshowsapp.viewmodel
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.hamzaerdas.tvshowsapp.model.TvShowDetail
+import com.hamzaerdas.tvshowsapp.service.FavoriteDao
 import com.hamzaerdas.tvshowsapp.service.TvShowAPI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,8 +14,9 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
     private val tvShowAPI: TvShowAPI,
+    private val favoriteDao: FavoriteDao,
     application: Application
-) : BaseViewModel(application) {
+) : BaseViewModel(favoriteDao, application) {
 
     val tvShowsDetail = MutableLiveData<TvShowDetail>()
     val tvShowDetailLoading = MutableLiveData<Boolean>()
