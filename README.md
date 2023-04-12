@@ -9,6 +9,7 @@ Popüler dizileri listeleyen ve tıklanıldığında detaylarını gösteren bir
 - Glide
 - Room
 - Coroutines
+- Dagger/Hilt
 - MVVM
 - View Binding
 - Data Binding
